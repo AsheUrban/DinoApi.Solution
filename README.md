@@ -1,6 +1,6 @@
 # Dino API
 
-An ASP.NET Core Web API for managing animals (demo CRUD).
+An ASP.NET Core Web API for managing prehistoric animals (demo CRUD).
 
 ## Technologies Used
 - C#
