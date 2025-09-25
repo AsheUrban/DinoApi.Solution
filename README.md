@@ -11,7 +11,7 @@ An ASP.NET Core Web API for managing animals (demo CRUD).
 - MySQL
 
 ## Description
-A simple Web API exposing CRUD endpoints for animals. This project is API-only and does not include a separate UI. Use Swagger or curl/Postman to interact with it.
+A simple Web API exposing CRUD endpoints for prehistoric animals. This project is API-only and does not include a separate UI. Use Swagger or curl/Postman to interact with it.
 
 ## App Settings & MySQL Configuration
 
