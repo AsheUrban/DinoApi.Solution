@@ -30,7 +30,7 @@ An ASP.NET Core Web API for managing prehistoric animals (CRUD) using Entity Fra
      "Logging": { "LogLevel": { "Default": "Information", "Microsoft.AspNetCore": "Warning" } },
      "AllowedHosts": "*",
      "ConnectionStrings": {
-      "DefaultConnection": "Server=localhost;Port=3306;database=todolist;uid=[YOUR ID];pwd=[YOUR_PASSWORD];"
+      "DefaultConnection": "Server=localhost;Port=3306;database=dinoapi;uid=[YOUR ID];pwd=[YOUR_PASSWORD];"
      } 
    }
     ```
@@ -60,13 +60,14 @@ An ASP.NET Core Web API for managing prehistoric animals (CRUD) using Entity Fra
    dotnet run
    ```
 
-## Default URLs
-```
-http://localhost:5000
-https://localhost:5001
-```
+   * _If you are seeing an error that tables cannot befound, there are missing or more than one DbContexts, or there are unresolvable errors related to the database use:_
 
-## Endpoints
+     ```
+      dotnet ef database drop -f --context DinoApiContext
+      ```
+    * _Then delete your migrations folder and everything in it, then rerun intial migrations and database update using dotnet as outlined above._
+
+## Review endpoints
 ```
 GET    /api/Animals
 GET    /api/Animals/{id}
@@ -74,6 +75,13 @@ POST   /api/Animals
 PUT    /api/Animals/{id}
 DELETE /api/Animals/{id}
 ```
+
+## Default URLs
+```
+http://localhost:5000
+https://localhost:5001
+```
+
 
 ## Swagger
 ```
