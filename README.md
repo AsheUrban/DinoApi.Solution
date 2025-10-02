@@ -1,6 +1,6 @@
 # Dino API
 
-An ASP.NET Core Web API for managing prehistoric animals (demo CRUD).
+An ASP.NET Core Web API for managing prehistoric animals (CRUD) using Entity Framework Core migrations to scaffold the database automatically.
 
 ## Technologies Used
 - C#
@@ -10,138 +10,114 @@ An ASP.NET Core Web API for managing prehistoric animals (demo CRUD).
 - Swagger (Swashbuckle)
 - MySQL
 
-## Description
-A simple Web API exposing CRUD endpoints for prehistoric animals. This project is API-only and does not include a separate UI. Use Swagger or curl/Postman to interact with it.
+## Prerequisites
+- .NET 6 SDK
+- MySQL running locally (or reachable)
+- (Optional) EF Core CLI: `dotnet tool install --global dotnet-ef`
 
-## App Settings & MySQL Configuration
+## Quick Start
 
-Create `appsettings.json` in `DinoApi.Solution/DinoApi`:
+1. **Clone & enter the project**
+   ```
+   git clone <your-repo-url>
+   cd DinoApi.Solution/DinoApi
+   ```
 
-```json
-{
-  "Logging": { "LogLevel": { "Default": "Information", "Microsoft.AspNetCore": "Warning" } },
-  "AllowedHosts": "*",
-  "ConnectionStrings": {
-    "DefaultConnection": "Server=127.0.0.1;Port=3306;Database=dino_api;Uid=YOUR UID;Pwd=YOUR_PASSWORD;"
-  }
-}
-```
+2. **Configure the connection string**
+   Create `appsettings.json` in `DinoApi.Solution/DinoApi`:
+   ```
+   {
+     "Logging": { "LogLevel": { "Default": "Information", "Microsoft.AspNetCore": "Warning" } },
+     "AllowedHosts": "*",
+     "ConnectionStrings": {
+      "DefaultConnection": "Server=localhost;Port=3306;database=todolist;uid=[YOUR ID];pwd=[YOUR_PASSWORD];"
+     } 
+   }
+    ```
 
-(Optional) Create `appsettings.Development.json`:
+   _NOTE: Replace `YOUR ID` and `YOUR_PASSWORD` with your MySQL password. Use the exact schema name `todolist` (all lowercase)._
 
-```json
-{
-  "Logging": {
-    "LogLevel": {
-      "Default": "Information",
-      "Microsoft": "Trace",
-      "Microsoft.AspNetCore": "Information",
-      "Microsoft.Hosting.Lifetime": "Information"
-    }
-  }
-}
-```
+   _Use valid MySQL credentials. No other MySQL setup steps are required; migrations will create the schema._
 
-Create the database, user, and grants (run once in MySQL Workbench or CLI as root):
+3. **Restore & build**
+   ```
+   dotnet restore
+   ```
+   ```
+   dotnet build
+   ```
 
-```sql
-CREATE DATABASE IF NOT EXISTS dino_api
-  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+4. **Apply migrations (scaffold the DB)**
+   ```
+   dotnet ef migrations add Initial
+   ```
+   ```
+   dotnet ef database update
+   ```
 
-CREATE USER IF NOT EXISTS 'YOUR UID'@'localhost' IDENTIFIED BY 'YOUR_PASSWORD';
-CREATE USER IF NOT EXISTS 'YOUR UID'@'127.0.0.1' IDENTIFIED BY 'YOUR_PASSWORD';
+5. **Run the API**
+   ```
+   dotnet run
+   ```
 
-GRANT ALL PRIVILEGES ON dino_api.* TO 'YOUR UID'@'localhost';
-GRANT ALL PRIVILEGES ON dino_api.* TO 'YOUR UID'@'127.0.0.1';
-FLUSH PRIVILEGES;
-```
-
-Apply EF Core migrations:
-
-```bash
-cd DinoApi.Solution/DinoApi
-dotnet ef database update
-```
-
-## How To Launch
-
-* cd into DinoApi.Solution/DinoApi OR cd .\DinoApi if you are already in the primary project directory
-* dotnet ef database update
-* dotnet run
-
-## The app listens on:
-
+## Default URLs
 ```
 http://localhost:5000
 https://localhost:5001
 ```
+
 ## Endpoints
-
 ```
-GET    http://localhost:5000/api/Animals
-GET    http://localhost:5000/api/Animals/{id}
-POST   http://localhost:5000/api/Animals
-PUT    http://localhost:5000/api/Animals/{id}
-DELETE http://localhost:5000/api/Animals/{id}
+GET    /api/Animals
+GET    /api/Animals/{id}
+POST   /api/Animals
+PUT    /api/Animals/{id}
+DELETE /api/Animals/{id}
 ```
 
-`{id}` should be replaced with the ID of the animal you want to GET, PUT, or DELETE.
-
-## How To View With Swagger
-
-Open:
-
+## Swagger
 ```
 http://localhost:5000/swagger
 https://localhost:5001/swagger
 ```
 
-## Using The API (Examples)
+## Example Requests
 
 List all animals:
 ```bash
 curl http://localhost:5000/api/Animals
 ```
 
-Get a single animal:
+Get one:
 ```bash
 curl http://localhost:5000/api/Animals/1
 ```
 
-Create a new animal (POST body):
-```json
-{
-  "name": "Rexie",
-  "species": "Dinosaur",
-  "age": 10
-}
-```
-
-Example curl for POST:
+Create:
 ```bash
 curl -X POST http://localhost:5000/api/Animals \
   -H "Content-Type: application/json" \
   -d "{\"name\":\"Rexie\",\"species\":\"Dinosaur\",\"age\":10}"
 ```
 
-Update an animal (PUT body should include `animalId` that matches the route `{id}`):
-```json
-{
-  "animalId": 1,
-  "name": "Rexie",
-  "species": "Dinosaur",
-  "age": 11
-}
-```
-
-Example curl for PUT:
+Update:
 ```bash
 curl -X PUT http://localhost:5000/api/Animals/1 \
   -H "Content-Type: application/json" \
   -d "{\"animalId\":1,\"name\":\"Rexie\",\"species\":\"Dinosaur\",\"age\":11}"
 ```
 
-Delete an animal:
+Delete:
 ```bash
 curl -X DELETE http://localhost:5000/api/Animals/1
 ```
+
+## Notes
+- Database creation and schema updates are handled entirely by EF Core migrations. Ensure only that your connection string is valid and the MySQL user has permission to create and alter objects in the target database.
+
+## License
+* _Educational Use Only — This repository is provided for classroom and personal learning purposes. It is not licensed for public deployment, redistribution, or commercial use. No warranty or support is provided._
+
+##
+
+Copyright(c) 2023 Ashe Urban
